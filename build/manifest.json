@@ -1,0 +1,42 @@
+{
+    "name": "读取 USB 与串行接口设备的数据",
+    "description": "让普通网页也能读取使用串行接口接入到电脑的设备的数据，例如电子秤的读数。",
+    "version": "1.0.7",
+    "manifest_version": 2,
+    "permissions": [
+        "serial",
+        "usb",
+        "hid",
+        "http://*/*",
+        "https://*/*",
+        {
+            "usbDevices": [
+                {
+                    "vendorId": 2338,
+                    "productId": 32772
+                }
+            ]
+        }
+    ],
+    "app": {
+        "background": {
+            "scripts": [
+                "./bundle/commons.js",
+                "./bundle/background.js"
+            ]
+        }
+    },
+    "externally_connectable": {
+        "ids": [
+            "*"
+        ],
+        "matches": [
+            "*://localhost:*/*",
+            "*://127.0.0.1:*/*",
+            "*://*.sankuai.com:*/*",
+            "*://*.meituan.com:*/*",
+            "*://192.168.10.18:*/*"
+        ]
+    },
+    "minimum_chrome_version": "41"
+}

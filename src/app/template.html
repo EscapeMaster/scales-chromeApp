@@ -1,0 +1,53 @@
+<p>下表列出了当前电脑的串口设备:</p>
+<table>
+  <thead>
+    <tr>
+      <th>设备标识符</th>
+      <th>设备名称</th>
+      <th>PCI 或 USB 制造商标识符</th>
+      <th>USB 产品标识符</th>
+      <th>当前状态</th>
+      <th>实时数据</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-show="devices.length" v-for="d in devices">
+      <td v-text="d.id"></td>
+      <td v-text="d.info.displayName || d.info.productName || '无法获取'"></td>
+      <td v-text="d.info.vendorId || '无法获取'"></td>
+      <td v-text="d.info.productId || '无法获取'"></td>
+      <td v-text="d.error ? '连接错误，可能已断开' : '已连接'"></td>
+      <td v-text="d.data"></td>
+    </tr>
+    <tr v-show="!devices.length"><!--这里用 v-else 无效-->
+      <td colspan="6">当前没有可用的设备</td>
+    </tr>
+  </tbody>
+</table>
+<p>接入新设备之后,点击下面的按钮才能接收到新设备的数据:</p>
+<div>
+  <button @click="reload">刷新列表</button>
+  <span v-show="connecting">正在刷新串口设备……</span>
+</div>
+<div>
+  <p>当接入 USB 设备时，首先需要把设备的 vendorId 与 productId 填进 manifest.json里，可以通过下面的按钮读取想要接入的 USB 设备的这两个值。</p>
+  <button @click="chooseUSB">读取 USB 设备的信息</button>
+  <table>
+    <tr>
+      <th>标识符</th>
+      <th>Vendor ID</th>
+      <th>Product ID</th>
+      <th>名称</th>
+      <th>制造商</th>
+      <th>串口数</th>
+    </tr>
+    <tr v-for="d in usbDevices">
+      <td v-text="d.device"></td>
+      <td v-text="d.vendorId"></td>
+      <td v-text="d.productId"></td>
+      <td v-text="d.productName"></td>
+      <td v-text="d.manufacturerName"></td>
+      <td v-text="d.serialNumber"></td>
+    </tr>
+  </table>
+</div>
